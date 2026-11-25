@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miss Sunshine Nivya 🌷</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+ font-family:Arial,sans-serif;
+ background:linear-gradient(135deg,#fff0f6,#f0eaff,#fff9e9);
+ color:#66536f;
+ min-height:100vh;
+}
+
+header{
+ background:#ffffffdd;
+ padding:15px;
+ position:sticky;
+ top:0;
+ z-index:10;
+ text-align:center;
+ box-shadow:0 3px 12px #b99abe22;
+}
+
+.logo{font-size:21px;color:#d46e9f;font-weight:bold;margin-bottom:12px}
+
+nav{display:flex;justify-content:center;flex-wrap:wrap;gap:7px}
+
+nav button{
+ background:#fff0f6;
+ color:#9d6488;
+ border:0;
+ padding:9px 12px;
+ border-radius:20px;
+ cursor:pointer;
+ font-weight:bold;
+}
+
+nav button.active{background:#d9c8fa;color:#654b91}
+
+main{max-width:850px;margin:30px auto;padding:15px}
+
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+
+@keyframes fade{
+ from{opacity:0;transform:translateY(12px)}
+ to{opacity:1;transform:translateY(0)}
+}
+
+.card{
+ background:#ffffffdd;
+ border:2px solid white;
+ border-radius:28px;
+ padding:35px 22px;
+ text-align:center;
+ box-shadow:0 12px 35px #a78bb522;
+}
+
+.emoji{font-size:55px;margin-bottom:15px}
+
+h1{color:#cb709f;font-size:clamp(27px,5vw,42px);margin-bottom:15px}
+h2{color:#a77abd;margin:20px 0 12px}
+h3{color:#b16e9e;margin-bottom:8px}
+
+p{line-height:1.8;margin:12px auto;max-width:600px}
+
+.script{color:#a68bd1}
+
+.btn{
+ border:0;
+ border-radius:30px;
+ padding:13px 23px;
+ margin:9px 5px;
+ background:linear-gradient(120deg,#ffb6d0,#c9b5ff);
+ color:white;
+ font-weight:bold;
+ font-size:15px;
+ cursor:pointer;
+ transition:.2s;
+}
+
+.btn:hover{transform:translateY(-3px)}
+.btn.secondary{background:#f1e8ff;color:#896ba9}
+.btn.soft{background:#fff0f6;color:#b46d94}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:14px;
+ margin-top:22px;
+}
+
+.tile{
+ padding:20px 14px;
+ border-radius:22px;
+ background:#fff3f8;
+ border:2px dashed #efc6da;
+}
+
+.tile:nth-child(even){background:#f5efff;border-color:#d8c7f1}
+.tile .emoji{font-size:35px}
+
+.letter{
+ display:none;
+ background:#fff9ed;
+ border:2px solid #f1d9ac;
+ border-radius:20px;
+ padding:25px;
+ text-align:left;
+ line-height:2;
+ white-space:pre-line;
+ margin-top:20px;
+}
+
+.question{
+ background:#fff5fa;
+ border-radius:20px;
+ padding:18px;
+ margin:20px auto;
+ max-width:550px;
+}
+
+.answer{
+ display:block;
+ width:100%;
+ margin:8px 0;
+ padding:12px;
+ border-radius:15px;
+ border:2px solid #efd5e4;
+ background:white;
+ color:#755c79;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.answer.selected{background:#eee5ff;border-color:#b99de2}
+
+.feedback{font-weight:bold;color:#a66f9d;min-height:25px}
+
+.final-box{
+ background:linear-gradient(135deg,#fff0f6,#f0eaff);
+ border-radius:24px;
+ padding:25px 15px;
+ margin-top:20px;
+}
+
+.small{font-size:12px;color:#aa94af}
+
+.progress{
+ height:6px;
+ background:#eee2f0;
+ border-radius:10px;
+ margin-bottom:20px;
+ overflow:hidden;
+}
+
+#progressBar{
+ height:100%;
+ width:16.66%;
+ background:linear-gradient(90deg,#ffb6d0,#bba2f0);
+ transition:width .3s;
+}
+
+footer{text-align:center;padding:25px;color:#aa91b1;font-size:13px}
+
+#celebration{
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ z-index:30;
+}
+
+.confetti{
+ position:absolute;
+ top:-30px;
+ animation:fall 3s linear forwards;
+ font-size:24px;
+}
+
+@keyframes fall{
+ to{transform:translateY(110vh) rotate(500deg);opacity:0}
+}
+
+@media(max-width:550px){
+ .card{padding:25px 15px}
+ .grid{grid-template-columns:1fr}
+ nav button{font-size:11px;padding:8px 10px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">☀️ Miss Sunshine Nivya</div>
+ <nav>
+  <button class="active" data-go="0">Home</button>
+  <button data-go="1">About</button>
+  <button data-go="2">Friendship</button>
+  <button data-go="3">Quiz</button>
+  <button data-go="4">Letter</button>
+  <button data-go="5">Surprise</button>
+ </nav>
+</header>
+
+<main>
+ <div class="progress"><div id="progressBar"></div></div>
+
+ <section class="page active">
+  <div class="card">
+   <div class="emoji">🌷🦋☀️</div>
+   <h1>Hey, <span class="script">Miss Sunshine!</span></h1>
+   <h2>Nivya 💗</h2>
+   <p>Sometimes a simple conversation becomes a beautiful part of an ordinary day.</p>
+   <p>I made this little corner of the internet to share a few thoughts about friendship.</p>
+   <p><b>Nothing special, just a little surprise! ✨</b></p>
+   <button class="btn" data-next="1">Let's explore 🌸</button>
+  </div>
+ </section>
+
+ <section class="page">
+  <div class="card">
+   <div class="emoji">🌻</div>
+   <h1>What makes you special?</h1>
+   <p>Everyone has something unique about them. Sometimes it's the little things that make someone memorable.</p>
+
+   <div class="grid">
+    <div class="tile"><div class="emoji">😊</div><h3>Your Smile</h3><p>A little happiness can brighten an ordinary moment.</p></div>
+    <div class="tile"><div class="emoji">💬</div><h3>Your Conversations</h3><p>Some conversations stay in the mind.</p></div>
+    <div class="tile"><div class="emoji">🦋</div><h3>Your Personality</h3><p>Your own way of thinking and being yourself.</p></div>
+    <div class="tile"><div class="emoji">🌈</div><h3>Your Energy</h3><p>A little sunshine in an ordinary day.</p></div>
+   </div>
+
+   <h2>Never stop being your own sunshine! ☀️</h2>
+   <button class="btn" data-next="2">Next page →</button>
+  </div>
+ </section>
+
+ <section class="page">
+  <div class="card">
+   <div class="emoji">💌✨</div>
+   <h1>Friendship is...</h1>
+   <p>Not about talking every second, having perfect words, or pretending to be someone else.</p>
+
+   <div class="grid">
+    <div class="tile"><div class="emoji">🤝</div><h3>Trust</h3><p>Being able to be yourself without pretending.</p></div>
+    <div class="tile"><div class="emoji">🌷</div><h3>Understanding</h3><p>Respecting each other's thoughts and feelings.</p></div>
+    <div class="tile"><div class="emoji">😂</div><h3>Laughter</h3><p>Making silly memories together.</p></div>
+    <div class="tile"><div class="emoji">🫶</div><h3>Efforts</h3><p>Both people making time and showing they care.</p></div>
+   </div>
+
+   <div class="final-box">
+    <h2>A little reminder</h2>
+    <p>The best friendships grow naturally. They need honesty, respect and effort from both sides.</p>
+   </div>
+   <button class="btn" data-next="3">Let's play a game 🎮</button>
+  </div>
+ </section>
+
+ <section class="page">
+  <div class="card">
+   <div class="emoji">🎀🎲</div>
+   <h1>Let's see your choices!</h1>
+   <p>There are no right or wrong answers. Choose what feels right. 😁</p>
+
+   <div class="question">
+    <h3>1. What matters most in friendship?</h3>
+    <button class="answer">Trust 🤝</button>
+    <button class="answer">Understanding 🌷</button>
+    <button class="answer">Efforts 🫶</button>
+    <button class="answer">All three 💗</button>
+   </div>
+
+   <div class="question">
+    <h3>2. Your favourite conversation?</h3>
+    <button class="answer">Random nonsense 😂</button>
+    <button class="answer">Deep talks 🌙</button>
+    <button class="answer">Daily stories ☀️</button>
+    <button class="answer">A little bit of everything ✨</button>
+   </div>
+
+   <div class="question">
+    <h3>3. What makes friendship memorable?</h3>
+    <button class="answer">Funny memories 😁</button>
+    <button class="answer">Being there for each other 💗</button>
+    <button class="answer">Growing together 🌱</button>
+   </div>
+
+   <div class="feedback" id="quizFeedback">Choose one answer in each question.</div>
+   <button class="btn" id="quizButton">See my result ✨</button>
+   <button class="btn secondary" data-next="4">Continue →</button>
+  </div>
+ </section>
+
+ <section class="page">
+  <div class="card">
+   <div class="emoji">✉️🌸</div>
+   <h1>A few words for you...</h1>
+   <p>Some things are easier to write than to say. So here's a little letter.</p>
+
+   <button class="btn" id="openLetter">Open your letter 💌</button>
+
+   <div class="letter" id="letter">
+Hey Nivya, 🌷
+
+I don't know how to make this sound perfect,
+but I just wanted to say something simple.
+
+I genuinely enjoy our conversations,
+the random jokes, the little teasing,
+and those unexpected moments that make an ordinary day better.
+
+I believe a good friendship is not about how long
+two people have known each other.
+It's about how comfortable, honest and respectful
+they can be with each other.
+
+I don't expect everything to be perfect.
+I just hope that if we build a friendship,
+it stays genuine, happy and full of good memories.
+
+Keep smiling, keep being yourself,
+and never forget that you deserve the same kindness
+that you give to others.
+
+Take care, Miss Sunshine. ☀️
+
+— A friend
+   </div>
+
+   <button class="btn secondary" data-next="5">One last thing... 💗</button>
+  </div>
+ </section>
+
+ <section class="page">
+  <div class="card">
+   <div class="emoji">🧸💗🌈</div>
+   <h1>So, Miss Sunshine...</h1>
+
+   <div class="final-box">
+    <h2>Will you be my Best Friend? 🥹</h2>
+    <p>Not a promise to talk all day. Just a chance to build a genuine friendship, one little memory at a time.</p>
+
+    <button class="btn" id="yesButton">Yes, let's be besties! 💗</button>
+    <button class="btn secondary" id="thinkButton">Let me think 😁</button>
+    <button class="btn soft" id="friendsButton">Let's keep being friends 🌷</button>
+
+    <div id="finalMessage" aria-live="polite"></div>
+   </div>
+
+   <p class="small">Whatever your answer, no pressure. Your comfort matters.</p>
+   <button class="btn secondary" data-next="0">Read it again ↺</button>
+  </div>
+ </section>
+
+</main>
+
+<div id="celebration"></div>
+
+<footer>
+ Made with ☀️, 🌷 and a little friendship magic.
+ <br>A little world for Miss Sunshine Nivya.
+</footer>
+
+<script>
+(function(){
+
+ const pages = Array.from(document.querySelectorAll('.page'));
+ const navButtons = Array.from(document.querySelectorAll('nav button'));
+ const progressBar = document.getElementById('progressBar');
+
+ function go(index){
+   if(index < 0 || index >= pages.length) return;
+
+   pages.forEach(function(page,i){
+     page.classList.toggle('active',i === index);
+   });
+
+   navButtons.forEach(function(button,i){
+     button.classList.toggle('active',i === index);
+   });
+
+   progressBar.style.width = ((index+1)/pages.length*100)+'%';
+   window.scrollTo(0,0);
+ }
+
+ navButtons.forEach(function(button){
+   button.addEventListener('click',function(){
+     go(Number(button.dataset.go));
+   });
+ });
+
+ document.querySelectorAll('[data-next]').forEach(function(button){
+   button.addEventListener('click',function(){
+     go(Number(button.dataset.next));
+   });
+ });
+
+ // Quiz
+ document.querySelectorAll('.question').forEach(function(question){
+   question.querySelectorAll('.answer').forEach(function(button){
+     button.addEventListener('click',function(){
+       question.querySelectorAll('.answer').forEach(function(item){
+         item.classList.remove('selected');
+       });
+       button.classList.add('selected');
+       document.getElementById('quizFeedback').textContent='Choice saved! ✨';
+     });
+   });
+ });
+
+ document.getElementById('quizButton').addEventListener('click',function(){
+   const questions = document.querySelectorAll('.question');
+   let complete = true;
+
+   questions.forEach(function(question){
+     if(!question.querySelector('.selected')) complete = false;
+   });
+
+   document.getElementById('quizFeedback').textContent = complete
+    ? 'Your friendship vibe is officially unique! 🌸 Thanks for sharing!'
+    : 'Please choose one answer in each question first! 😊';
+ });
+
+ // Letter
+ document.getElementById('openLetter').addEventListener('click',function(){
+   document.getElementById('letter').style.display='block';
+   this.textContent='Your letter is open 💗';
+   this.disabled=true;
+ });
+
+ // Celebration
+ function celebrate(){
+   const area=document.getElementById('celebration');
+   const symbols=['💗','🌸','✨','🎀','🦋','⭐'];
+
+   for(let i=0;i<35;i++){
+     const item=document.createElement('span');
+     item.className='confetti';
+     item.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+     item.style.left=Math.random()*100+'vw';
+     item.style.animationDelay=(Math.random()*1.5)+'s';
+     area.appendChild(item);
+
+     setTimeout(function(){item.remove();},4500);
+   }
+ }
+
+ function answer(message,party){
+   const output=document.getElementById('finalMessage');
+   output.innerHTML='';
+   const heading=document.createElement('h2');
+   const paragraph=document.createElement('p');
+
+   heading.textContent=message[0];
+   paragraph.textContent=message[1];
+
+   output.appendChild(heading);
+   output.appendChild(paragraph);
+
+   if(party) celebrate();
+ }
+
+ document.getElementById('yesButton').addEventListener('click',function(){
+   answer(
+    ['Yayyy! 🥳💗','Here is to a friendship filled with laughter, trust and beautiful memories. Bestie chapter unlocked! 🌷'],
+    true
+   );
+ });
+
+ document.getElementById('thinkButton').addEventListener('click',function(){
+   answer(['Take your time! 🌸','Good things grow naturally. No hurry and no pressure. 😊'],false);
+ });
+
+ document.getElementById('friendsButton').addEventListener('click',function(){
+   answer(['That is lovely too! 🫶','Good friendships are valuable at every stage. Let’s keep things genuine and happy. ☀️'],false);
+ });
+
+})();
+</script>
+
+</body>
+</html>
