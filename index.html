@@ -374,6 +374,31 @@ Take care, Miss Sunshine. ☀️
  const navButtons = Array.from(document.querySelectorAll('nav button'));
  const progressBar = document.getElementById('progressBar');
 
+ // Google Apps Script Web App endpoint for saving Nivya's answers.
+ const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxaQ-d9CN5TRg5N_yT3ETATqnp-bw0ZazLZ6IAxsZgkHk3L605yKclxWxGctQOFPWy5NA/exec';
+
+ function submitAnswers(finalAnswer) {
+   const questions = Array.from(document.querySelectorAll('.question'));
+   const choices = questions.map(function(question) {
+     const selected = question.querySelector('.answer.selected');
+     return selected ? selected.textContent.trim() : '';
+   });
+
+   const payload = {
+     q1: choices[0] || '',
+     q2: choices[1] || '',
+     q3: choices[2] || '',
+     finalAnswer: finalAnswer
+   };
+
+   return fetch(WEB_APP_URL, {
+     method: 'POST',
+     mode: 'no-cors',
+     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+     body: JSON.stringify(payload)
+   });
+ }
+
  function go(index){
    if(index < 0 || index >= pages.length) return;
 
@@ -466,19 +491,43 @@ Take care, Miss Sunshine. ☀️
    if(party) celebrate();
  }
 
+ function showAndSubmit(message, party, finalAnswer) {
+   answer(message, party);
+   const output = document.getElementById('finalMessage');
+   const status = document.createElement('p');
+   status.className = 'small';
+   status.textContent = 'Saving your answers…';
+   output.appendChild(status);
+
+   submitAnswers(finalAnswer).then(function() {
+     status.textContent = 'Thank you! Your answers have been submitted. 💗';
+   }).catch(function() {
+     status.textContent = 'Your answer could not be sent right now. Please tell me your choice. 🌷';
+   });
+ }
+
  document.getElementById('yesButton').addEventListener('click',function(){
-   answer(
-    ['Yayyy! 🥳💗','Here is to a friendship filled with laughter, trust and beautiful memories. Bestie chapter unlocked! 🌷'],
-    true
+   showAndSubmit(
+     ['Yayyy! 🥳💗','Here is to a friendship filled with laughter, trust and beautiful memories. Bestie chapter unlocked! 🌷'],
+     true,
+     "Yes, let's be besties!"
    );
  });
 
  document.getElementById('thinkButton').addEventListener('click',function(){
-   answer(['Take your time! 🌸','Good things grow naturally. No hurry and no pressure. 😊'],false);
+   showAndSubmit(
+     ['Take your time! 🌸','Good things grow naturally. No hurry and no pressure. 😊'],
+     false,
+     'Let me think'
+   );
  });
 
  document.getElementById('friendsButton').addEventListener('click',function(){
-   answer(['That is lovely too! 🫶','Good friendships are valuable at every stage. Let’s keep things genuine and happy. ☀️'],false);
+   showAndSubmit(
+     ['That is lovely too! 🫶','Good friendships are valuable at every stage. Let’s keep things genuine and happy. ☀️'],
+     false,
+     "Let's keep being friends"
+   );
  });
 
 })();
